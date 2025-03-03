@@ -5,10 +5,32 @@
 <style>
   h1 { color: teal; text-align: center; }
   p { font-size: 18px; color: darkblue; }
+input { padding: 5px; margin: 10px; }
+button { padding: 5px 10px; background: teal; color: white; }
+ul { list-style-type: none; }
 </style>
 </head>
 <body>
   <h1>My Tasks</h1>
-  <p>Learning coding with Grok!</p>
+  <input id="taskInput" placeholder="Add a task">
+  <button id="addButton">Add</button>
+  <ul id="taskList"></ul>
+  <script>
+    let button = document.getElementById("addButton");
+    let input = document.getElementById("taskInput");
+    let list = document.getElementById("taskList");
+
+    button.addEventListener("click", function() {
+      let taskText = input.value;
+      if (taskText !== "") {
+        let newTask = document.createElement("li");
+        newTask.textContent = taskText;
+        list.appendChild(newTask);
+        input.value = "";
+      } else {
+        alert("Enter a task!");
+      }
+    });
+  </script>
 </body>
 </html>
