@@ -24,7 +24,14 @@ ul { list-style-type: none; }
     let taskText = input.value;
     if (taskText !== "") {
       let newTask = document.createElement("li");
-      newTask.textContent = taskText + " "; // Space before button
+
+      let checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.addEventListener("change", function() {
+        newTask.style.textDecoration = checkbox.checked ? "line-through" : "none";
+      });
+
+      let taskLabel = document.createTextNode(" " + taskText + " ");
 
       let deleteBtn = document.createElement("button");
       deleteBtn.textContent = "Delete";
@@ -34,6 +41,8 @@ ul { list-style-type: none; }
         list.removeChild(newTask);
       });
 
+      newTask.appendChild(checkbox);
+      newTask.appendChild(taskLabel);
       newTask.appendChild(deleteBtn);
       list.appendChild(newTask);
       input.value = "";
