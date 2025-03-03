@@ -16,21 +16,29 @@ ul { list-style-type: none; }
   <button id="addButton">Add</button>
   <ul id="taskList"></ul>
   <script>
-    let button = document.getElementById("addButton");
-    let input = document.getElementById("taskInput");
-    let list = document.getElementById("taskList");
+  let button = document.getElementById("addButton");
+  let input = document.getElementById("taskInput");
+  let list = document.getElementById("taskList");
 
-    button.addEventListener("click", function() {
-      let taskText = input.value;
-      if (taskText !== "") {
-        let newTask = document.createElement("li");
-        newTask.textContent = taskText;
-        list.appendChild(newTask);
-        input.value = "";
-      } else {
-        alert("Enter a task!");
-      }
-    });
-  </script>
-</body>
-</html>
+  button.addEventListener("click", function() {
+    let taskText = input.value;
+    if (taskText !== "") {
+      let newTask = document.createElement("li");
+      newTask.textContent = taskText + " "; // Space before button
+
+      let deleteBtn = document.createElement("button");
+      deleteBtn.textContent = "Delete";
+      deleteBtn.style.background = "red";
+      deleteBtn.style.color = "white";
+      deleteBtn.addEventListener("click", function() {
+        list.removeChild(newTask);
+      });
+
+      newTask.appendChild(deleteBtn);
+      list.appendChild(newTask);
+      input.value = "";
+    } else {
+      alert("Enter a task!");
+    }
+  });
+</script>
