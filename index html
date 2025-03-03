@@ -2,6 +2,10 @@
 <html>
 <head>
   <title>My To-Do List</title>
+<style>
+  h1 { color: teal; text-align: center; }
+  p { font-size: 18px; color: darkblue; }
+</style>
 </head>
 <body>
   <h1>My Tasks</h1>
