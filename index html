@@ -20,14 +20,15 @@ li { margin: 10px 0; }
   <input id="taskInput" placeholder="Add a task">
   <button id="addButton">Add</button>
   <ul id="taskList"></ul>
-  <script>
+<script>
   let button = document.getElementById("addButton");
   let input = document.getElementById("taskInput");
   let list = document.getElementById("taskList");
 
-  button.addEventListener("click", function() {
-    let taskText = input.value;
-    if (taskText !== "") {
+  // Load saved tasks on page load
+  window.onload = function() {
+    let savedTasks = JSON.parse(localStorage.getItem("tasks") || "[]");
+    savedTasks.forEach(task => {
       let newTask = document.createElement("li");
 
       let checkbox = document.createElement("input");
@@ -36,7 +37,7 @@ li { margin: 10px 0; }
         newTask.style.textDecoration = checkbox.checked ? "line-through" : "none";
       });
 
-      let taskLabel = document.createTextNode(" " + taskText + " ");
+      let taskLabel = document.createTextNode(" " + task + " ");
 
       let editBtn = document.createElement("button");
       editBtn.textContent = "Edit";
@@ -66,6 +67,11 @@ li { margin: 10px 0; }
       deleteBtn.style.color = "white";
       deleteBtn.addEventListener("click", function() {
         list.removeChild(newTask);
+        // Update localStorage when deleting
+        let tasks = JSON.parse(localStorage.getItem("tasks") || "[]");
+        let index = tasks.indexOf(taskLabel.textContent.trim());
+        if (index > -1) tasks.splice(index, 1);
+        localStorage.setItem("tasks", JSON.stringify(tasks));
       });
 
       newTask.appendChild(checkbox);
@@ -73,23 +79,77 @@ li { margin: 10px 0; }
       newTask.appendChild(editBtn);
       newTask.appendChild(deleteBtn);
       list.appendChild(newTask);
+    });
+  };
+
+  button.addEventListener("click", function() {
+    let taskText = input.value;
+    if (taskText !== "") {
+      let newTask = document.createElement("li");
+
+      let checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.addEventListener("change", function() {
+        newTask.style.textDecoration = checkbox.checked ? "line-through" : "none";
+      });
+
+      let taskLabel = document.createTextNode(" " + taskText + " ");
+
+      let editBtn = document.createElement("button");
+      editBtn.textContent = "Edit";
+      editBtn.style.background = "yellow";
+      editBtn.style.color = "black";
+      editBtn.addEventListener("click", function() {
+        let editInput = document.createElement("input");
+        editInput.value = taskLabel.textContent.trim();
+        newTask.replaceChild(editInput, taskLabel);
+
+        let saveBtn = document.createElement("button");
+        saveBtn.textContent = "Save";
+        saveBtn.style.background = "green";
+        saveBtn.style.color = "white";
+        saveBtn.addEventListener("click", function() {
+          let newText = document.createTextNode(" " + editInput.value + " ");
+          let updatedTask = editInput.value;
+          newTask.replaceChild(newText, editInput);
+          newTask.replaceChild(editBtn, saveBtn);
+
+          // Update localStorage when editing
+          let tasks = JSON.parse(localStorage.getItem("tasks") || "[]");
+          let index = tasks.indexOf(taskText);
+          if (index > -1) tasks[index] = updatedTask;
+          localStorage.setItem("tasks", JSON.stringify(tasks));
+        });
+
+        newTask.replaceChild(saveBtn, editBtn);
+      });
+
+      let deleteBtn = document.createElement("button");
+      deleteBtn.textContent = "Delete";
+      deleteBtn.style.background = "red";
+      deleteBtn.style.color = "white";
+      deleteBtn.addEventListener("click", function() {
+        list.removeChild(newTask);
+        // Update localStorage when deleting
+        let tasks = JSON.parse(localStorage.getItem("tasks") || "[]");
+        let index = tasks.indexOf(taskText);
+        if (index > -1) tasks.splice(index, 1);
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+      });
+
+      newTask.appendChild(checkbox);
+      newTask.appendChild(taskLabel);
+      newTask.appendChild(editBtn);
+      newTask.appendChild(deleteBtn);
+      list.appendChild(newTask);
+
+      // Save new task to localStorage
+      let tasks = JSON.parse(localStorage.getItem("tasks") || "[]");
+      tasks.push(taskText);
+      localStorage.setItem("tasks", JSON.stringify(tasks));
       input.value = "";
     } else {
       alert("Enter a task!");
     }
   });
-let tasks = []; // Simulated database
-
-button.addEventListener("click", function() {
-  let taskText = input.value;
-  if (taskText !== "") {
-    let newTask = document.createElement("li");
-    // ... (rest of your code for checkbox, edit, delete) ...
-    tasks.push(taskText); // Save to "server"
-    console.log("Tasks saved:", tasks);
-    // ... (rest of append, etc.) ...
-  } else {
-    alert("Enter a task!");
-  }
-});
 </script>
