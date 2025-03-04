@@ -10,6 +10,9 @@ button { padding: 5px 10px; background: teal; color: white; }
 ul { list-style-type: none; }
 button[style*="yellow"] { margin-left: 5px; }
 button[style*="green"] { margin-left: 5px; }
+body { font-family: Arial, sans-serif; }
+ul { padding: 0; margin: 0 auto; width: 80%; }
+li { margin: 10px 0; }
 </style>
 </head>
 <body>
