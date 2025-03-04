@@ -8,6 +8,8 @@
 input { padding: 5px; margin: 10px; }
 button { padding: 5px 10px; background: teal; color: white; }
 ul { list-style-type: none; }
+button[style*="yellow"] { margin-left: 5px; }
+button[style*="green"] { margin-left: 5px; }
 </style>
 </head>
 <body>
