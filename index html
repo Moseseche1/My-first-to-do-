@@ -78,4 +78,18 @@ li { margin: 10px 0; }
       alert("Enter a task!");
     }
   });
+let tasks = []; // Simulated database
+
+button.addEventListener("click", function() {
+  let taskText = input.value;
+  if (taskText !== "") {
+    let newTask = document.createElement("li");
+    // ... (rest of your code for checkbox, edit, delete) ...
+    tasks.push(taskText); // Save to "server"
+    console.log("Tasks saved:", tasks);
+    // ... (rest of append, etc.) ...
+  } else {
+    alert("Enter a task!");
+  }
+});
 </script>
