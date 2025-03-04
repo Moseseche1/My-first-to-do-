@@ -33,6 +33,28 @@ ul { list-style-type: none; }
 
       let taskLabel = document.createTextNode(" " + taskText + " ");
 
+      let editBtn = document.createElement("button");
+      editBtn.textContent = "Edit";
+      editBtn.style.background = "yellow";
+      editBtn.style.color = "black";
+      editBtn.addEventListener("click", function() {
+        let editInput = document.createElement("input");
+        editInput.value = taskLabel.textContent.trim();
+        newTask.replaceChild(editInput, taskLabel);
+
+        let saveBtn = document.createElement("button");
+        saveBtn.textContent = "Save";
+        saveBtn.style.background = "green";
+        saveBtn.style.color = "white";
+        saveBtn.addEventListener("click", function() {
+          let newText = document.createTextNode(" " + editInput.value + " ");
+          newTask.replaceChild(newText, editInput);
+          newTask.replaceChild(editBtn, saveBtn);
+        });
+
+        newTask.replaceChild(saveBtn, editBtn);
+      });
+
       let deleteBtn = document.createElement("button");
       deleteBtn.textContent = "Delete";
       deleteBtn.style.background = "red";
@@ -43,6 +65,7 @@ ul { list-style-type: none; }
 
       newTask.appendChild(checkbox);
       newTask.appendChild(taskLabel);
+      newTask.appendChild(editBtn);
       newTask.appendChild(deleteBtn);
       list.appendChild(newTask);
       input.value = "";
